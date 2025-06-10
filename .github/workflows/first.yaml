@@ -24,7 +24,7 @@ jobs:
           date
           pwd
           echo "This is an environment variable from the workflow"
-          echo ${{ env.MY__WORKFLOW_ENV_VAR }} }}
+          echo ${{ env.MY__WORKFLOW_ENV_VAR }}
 
   job2:
     runs-on: ubuntu-latest
