@@ -1,0 +1,35 @@
+- terraform
+
+- 1 vpc
+2 private subnet for ecs
+2 public subnet for ALB
+2 private subnet rds
+1 nat, 1 eip
+internet gateway, and attch that to vpc
+1 private route table, 1 public
+atahc subnet to route tables
+1 route from ouckic subnet to eip
+1 private subnet to nat
+
+1 ecs cluster
+1 task def
+1 services
+1 ALB 
+1 target group
+3 security groups
+compalte the setup with route53, acm, and listners
+
+
+
+# file recovery 
+git fsck --full --unreachable --no-reflog
+git cat-file -p 201a7db849d65d06e88b2b4191ac4adf23ccbbd3 > rds.tf
+git cat-file -p fb8947bb99602c9c2282d7b289466ca9003ac028
+git cat-file -p fb8947bb99602c9c2282d7b289466ca9003ac028 > network.tf
+
+
+
+#  force delete secret
+aws secretsmanager delete-secret \
+    --secret-id db/dev-student-portal-db \
+    --force-delete-without-recovery

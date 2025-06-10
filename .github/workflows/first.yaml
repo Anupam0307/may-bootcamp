@@ -1,0 +1,67 @@
+---
+name: First workflow
+
+on:
+ push :
+   branches:
+     - main
+
+# definig a env
+env:
+  MY__WORKFLOW_ENV_VAR: "This is an  workflow environment variable"
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: run 1 shell command
+        run: echo "Hello, World!"
+
+      - name: run 2 shell commands
+        run: |
+          echo "this is where i will run the second command"
+          date
+          pwd
+          echo "This is an environment variable from the workflow"
+          echo ${{ env.MY__WORKFLOW_ENV_VAR }}
+
+  job2:
+    runs-on: ubuntu-latest
+    env:
+      MY__JOB1_ENV_VAR: "job1-env"
+    needs: [job1]
+
+    steps:
+      - name: run 1 shell command
+        run: echo "Hello, World! - ${{ env.MY__JOB1_ENV_VAR }}"
+
+      - name: run 2 shell commands
+        run: |
+          echo "this is where i will run the second command"
+          echo "  job1 env  ${{ env.MY__JOB1_ENV_VAR }}"
+          echo "workflow env  ${{ env.MY__WORKFLOW_ENV_VAR }}"
+
+  job3:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: run 2 shell commands
+        run: |
+          echo "this is where i will run the second command"
+          echo "This is an environment variable from the workflow"
+          echo ${{ env.MY__WORKFLOW_ENV_VAR }}
+          echo "This is an environment variable from job1"
+          echo "This is an environment variable from job2 ${{ env.MY__WORKFLOW_ENV_VAR }}"
+
+      - name: use step env
+        env:
+          MY__STEP_ENV_VAR: "step1"
+        run: |
+          echo "This is an environment variable from ste2"
+          echo "This is an environment variable from step ${{ env.MY__STEP_ENV_VAR }}"
+          echo "This is an environment variable from step $MY__STEP_ENV_VAR"
+
+
+ 

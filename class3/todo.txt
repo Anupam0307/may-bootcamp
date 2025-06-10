@@ -1,0 +1,61 @@
+# Create ecr repository on aws
+
+# Build the application image -> prefebly on a linux machine(github codespace)
+# Or you can build on local machine, just add platform compatibility for linux
+cd sec
+docker build -t student-portal .
+
+# tag the image
+docker tag student-portal <ecr-repo>:tag 
+
+# Install aws cli install
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+
+# configure the aws creds
+aws configure
+
+# Ecr login
+aws ecr get-login-password --region ap-south-1 | docker login --username AWS --password-stdin 879381241087.dkr.ecr.ap-south-1.amazonaws.com
+
+# Push the image to ecr
+docker push <ecr-repo>:tag
+
+# Create a rds postgres request and copy the creds
+username -> postgres
+Password - admin12345
+db_name - studentportal
+port -> 5432
+host -> will be the endpoint of rds
+
+# build and push the 
+
+# Use this as environment variable in ecs task defnition
+
+DB_LINK='postgresql://postgres:admin12345@studentportal.cvik8accw2tk.ap-south-1.rds.amazonaws.com:5432/studentportal'
+
+
+# ECS Part
+# 1 task definition for studnet portal
+- use <ecr-repo>:tag as image
+- port will be 8000 # fron the docker image
+- add DB_LINK env with link to postgres db
+
+# 1 ecs cluster 
+
+# 1 ecs servive with load balancer
+- use the task defnition created in last step
+- ecs service should use the security group that allow inbound on 8000 port
+- use the load balancer, choose the healtheck pointing to 8000 container port
+- make sure Load balancer security group allow inbound on 80/443
+- allow the public ip if have not configured the NAT
+- access the application on public ip for task to test
+- now use alb dns to access the application
+- troubleshoot
+
+
+
+
+
+# DB_LINK='postgresql://postgres:admin12345@prod-spdb.cvik8accw2tk.ap-south-1.rds.amazonaws.com:5432/prodsp'

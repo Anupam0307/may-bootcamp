@@ -1,0 +1,45 @@
+name: manual 
+
+on:
+  workflow_dispatch:
+    # This event allows you to manually trigger the workflow from the GitHub UI.
+    # works only when it is on main branch
+    inputs:
+      name:
+        description: 'Give me your name'
+        required: true
+        type: string
+
+      mobile:
+        description: 'Give me your mobile number'
+        required: false
+        type: string
+        
+      why:
+        description: 'Why do you want to join the bootcamp?'
+        required: false
+        type: choice
+        options:
+          - 'I want to learn'
+          - 'I want to improve my skills'
+          - 'I want to build a project'
+          - 'Other'
+
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Intro
+        run: echo "Hi ${{ github.event.inputs.name }}"
+        
+      - name: Mobile
+        run: |
+          if [ -z "${{ github.event.inputs.mobile }}" ]; then
+            echo "No mobile number provided."
+          else
+            echo "Your mobile number is ${{ github.event.inputs.mobile }}"
+          fi
+          
+      - name: Reason
+        run: echo " Reason for joining ${{ github.event.inputs.why }}"

@@ -179,3 +179,9 @@ cython_debug/
 *.csv
 
 .env
+
+# terraform
+.terraform/
+tfstatefile.txt
+realtfstate.txt
+.terraform.lock.hcl
