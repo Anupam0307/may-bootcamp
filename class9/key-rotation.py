@@ -10,7 +10,7 @@ ses_client = boto3.client('ses')
 
 username="Anupam_0307"
 expiry_days = 45
-reminder_days = 5
+reminder_days = 40
 reminder_email_age = expiry_days - reminder_days
 To_email = "ghaianupam3@gmail.com"
 From_email =  "ghaianupam9@gmail.com"
